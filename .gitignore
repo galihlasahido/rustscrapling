@@ -1,0 +1,16 @@
+# Build output
+target/
+
+# Cargo.lock is intentionally committed: this is a library, but we want
+# reproducible builds while the crate is under active development.
+
+# Adaptive-selector storage
+*.db
+*.db-wal
+*.db-shm
+
+# Spider development-mode response cache
+.scrapling_cache/
+
+# macOS
+.DS_Store

@@ -1,0 +1,88 @@
+rustscrapling
+Copyright (c) 2026 Advance Dynamic Software
+
+This product is licensed under the MIT License. See the LICENSE file for the
+full terms.
+
+================================================================================
+Third-party attributions
+================================================================================
+
+rustscrapling is a Rust port of Scrapling, a Python web-scraping library. Large
+parts of this crate are derived from Scrapling: the adaptive element
+fingerprinting and relocation algorithm, the similarity scoring used by
+find_similar, the ::text and ::attr pseudo-element handling, the selector
+generation, the crawl scheduler and request fingerprinting, the AutoThrottle
+delay formula, the link extractor, and the Chromium launch-flag lists.
+
+Those portions remain subject to the BSD 3-Clause License reproduced below. The
+MIT License of this crate applies to the original Rust work; it does not and
+cannot relicense the Scrapling material.
+
+--------------------------------------------------------------------------------
+Scrapling
+https://github.com/D4Vinci/Scrapling
+Copyright (c) 2024, Karim shoair
+Licensed under the BSD 3-Clause License:
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+
+  1. Redistributions of source code must retain the above copyright notice, this
+     list of conditions and the following disclaimer.
+
+  2. Redistributions in binary form must reproduce the above copyright notice,
+     this list of conditions and the following disclaimer in the documentation
+     and/or other materials provided with the distribution.
+
+  3. Neither the name of the copyright holder nor the names of its
+     contributors may be used to endorse or promote products derived from
+     this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+  FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+--------------------------------------------------------------------------------
+Scrapy project (parsel, w3lib)
+https://github.com/scrapy/parsel
+https://github.com/scrapy/w3lib
+Copyright (c) Scrapy developers
+Licensed under the BSD 3-Clause License (same terms as reproduced above,
+with the Scrapy developers as copyright holder).
+
+Scrapling's CSS-to-XPath translator states that it is an adapted version of
+parsel's translator, and Scrapling depends on w3lib for URL canonicalization,
+HTML entity replacement, and the default ignored-extensions list. Where
+rustscrapling reimplements that behaviour (canonicalize_url, the
+IGNORED_EXTENSIONS set, entity replacement, and the ::text / ::attr
+pseudo-element semantics), the lineage traces to those projects.
+
+--------------------------------------------------------------------------------
+Acknowledgement (no license obligation)
+
+Scrapling documents its find_similar feature as inspired by AutoScraper
+(https://github.com/alirezamika/autoscraper), which is MIT licensed. No
+AutoScraper code was copied into Scrapling or into this crate.
+
+If the built-in advertising and tracker domain list is included in a future
+release of this crate, it originates from Peter Lowe's ad and tracking server
+list (https://pgl.yoyo.org/adservers/) by way of Scrapling, and its terms of use
+apply to that data.
+
+================================================================================
+No endorsement
+================================================================================
+
+This project is an independent port. It is not affiliated with, endorsed by, or
+supported by Karim shoair, the Scrapling project, the Scrapy developers, or any
+other party named above. Their names appear here solely to satisfy the
+attribution requirements of the licenses listed, as required by clause 3 of the
+BSD 3-Clause License.

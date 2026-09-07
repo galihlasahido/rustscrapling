@@ -1,0 +1,81 @@
+[package]
+name = "rustscrapling"
+version = "0.1.0"
+edition = "2021"
+description = "A Rust port of the Scrapling web-scraping library: adaptive HTML parsing, fetching and a crawl framework"
+license = "MIT AND BSD-3-Clause"
+readme = "README.md"
+repository = "https://github.com/galihlasahido/rustscrapling"
+keywords = ["scraping", "html", "parser", "crawler", "spider"]
+categories = ["web-programming", "parser-implementations"]
+
+[features]
+default = ["http", "spider"]
+# reqwest-based `Fetcher` / `FetcherSession`
+http = ["dep:reqwest"]
+# crawl framework (`Spider`, `CrawlerEngine`, ...); needs the HTTP fetcher
+spider = ["http", "dep:robotstxt", "dep:csv"]
+# chromiumoxide-based `DynamicFetcher` / `DynamicSession`
+browser = ["dep:chromiumoxide"]
+
+[dependencies]
+# `atomic` swaps scraper's string storage to an atomically refcounted tendril, which is what
+# makes a parsed document movable between threads (see `parser::Selector`).
+#
+# The version is pinned exactly, not left on a caret range, because the `unsafe impl Sync for
+# Document` in `src/parser/selector.rs` is a manual proof about scraper's internals: which fields
+# of `scraper::node::Element` are lazily initialized and that every string in the tree is an
+# atomically refcounted tendril. A patch release that adds another `OnceCell`, a cache or a `Cell`
+# to a tree node would invalidate that proof silently. Re-read those definitions before moving
+# the pin; `src/parser/selector.rs` says the same next to the `unsafe`.
+scraper = { version = "=0.27.0", default-features = false, features = [
+    "atomic",
+    "errors",
+] }
+# scraper's tree type; `parser` names `NodeId`/`NodeRef` directly and scraper does not re-export
+# them, so it has to be a direct dependency. Pinned exactly to what scraper 0.27.0 resolves, for
+# the same soundness reason as above: the `Tree`/`NodeRef` internals are part of that proof.
+ego-tree = "=0.11.0"
+regex = "1.13"
+similar = { version = "3.2", features = ["text"] }
+rusqlite = { version = "0.40", default-features = false, features = ["bundled"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "2.0"
+url = "2.5"
+percent-encoding = "2.3"
+sha1 = "0.11"
+hex = "0.4"
+# 0.22, not 0.23: this is the version reqwest/hyper-util already pull in, so the graph carries a
+# single copy. The only use is `general_purpose::STANDARD` in `src/spider/cache.rs`, whose API is
+# the same in both.
+base64 = "0.22"
+rand = "0.10"
+tokio = { version = "1.53", features = ["full"] }
+futures = "0.3"
+async-trait = "0.1"
+tracing = "0.1"
+httpdate = "1.0"
+# body decoding for `Response::text_body` / `with_encoding`
+encoding_rs = "0.8"
+
+reqwest = { version = "0.13", default-features = false, features = [
+    "rustls",
+    "json",
+    "cookies",
+    "gzip",
+    "brotli",
+    "deflate",
+    "socks",
+], optional = true }
+robotstxt = { version = "0.3", optional = true }
+csv = { version = "1.4", optional = true }
+chromiumoxide = { version = "0.9", optional = true }
+
+[dev-dependencies]
+tokio = { version = "1.53", features = ["macros", "rt-multi-thread"] }
+wiremock = "0.6"
+tempfile = "3.27"
+
+[profile.release]
+opt-level = 3
